@@ -7,23 +7,21 @@ import java.util.ArrayList;
 
 public class App{
 	
-	static ArrayList<Namekiano> Namekianos = new ArrayList<Namekiano>();
+	static Namekiano NamekianoGlobal;
 	
     public static void main( String[] args ) throws NumberFormatException, IOException{
+    	ArrayList<Namekiano> Namekianos = new ArrayList<Namekiano>();
     	BufferedReader filein = new BufferedReader( new FileReader( "tarea2.in" ) );
     	int casos = Integer.parseInt(filein.readLine());
     	while(casos>0){
     		while(true){
-    			System.out.println("Infinite :v");
     			String nombres = filein.readLine();
     			if(nombres.length()==1)
     				break;
     			String nombres_separados[] = nombres.split(" ");
-    			
+    			Namekiano Padre = new Namekiano();
+				Namekiano Hijo = new Namekiano();
     			if(Namekianos.isEmpty()){
-    				System.out.println("Namekiano Firts");
-    				Namekiano Padre = new Namekiano();
-    				Namekiano Hijo = new Namekiano();
     				Padre.Nombre=nombres_separados[0];
     				Hijo.Nombre=nombres_separados[1];
     				Hijo.Padre=Padre;
@@ -32,30 +30,31 @@ public class App{
     				Padre.Hijos = Hijos;
     				Namekianos.add(Padre);
     				Namekianos.add(Hijo);
-    			}else{
-    				System.out.println("Namekiano In");
-    				Namekiano Padre = new Namekiano();
-    				Namekiano Hijo = new Namekiano();
-    				for(int i = 0; i < Namekianos.size(); i++){
-    					System.out.println("Namekiano For");
-    					if(Namekianos.get(i).Nombre==nombres_separados[0]){
-    						Hijo.Nombre=nombres_separados[1];
-    	    				Hijo.Padre = Namekianos.get(i);
-    						ArrayList<Namekiano> Hijos = new ArrayList<Namekiano>();
-    						Hijos = Namekianos.get(i).Hijos;
-    						Hijos.add(Hijo);
-    					}else {
-    						Padre.Nombre=nombres_separados[0];
-    	    				Hijo.Nombre=nombres_separados[1];
-    	    				Hijo.Padre=Padre;
-    	    				ArrayList<Namekiano> Hijos = new ArrayList<Namekiano>();
-    	    				Hijos.add(Hijo);
-    	    				Padre.Hijos = Hijos;
-    	    				Namekianos.add(Padre);
-    	    				Namekianos.add(Hijo);
-    					}
-    				}
-    			}
+    			}else if(findnamekiano(Namekianos,nombres_separados[0])&&(!findnamekiano(Namekianos,nombres_separados[1]))){
+    				Hijo.Nombre=nombres_separados[1];
+	    			Hijo.Padre = NamekianoGlobal;
+					ArrayList<Namekiano> Hijos = new ArrayList<Namekiano>();
+					Hijos = NamekianoGlobal.Hijos;
+					Hijos.add(Hijo);
+					Namekianos.add(Hijo);	
+    			}else if(findnamekiano(Namekianos,nombres_separados[1])) {
+    				Padre.Nombre=nombres_separados[0];
+    				Hijo = NamekianoGlobal;
+    				Hijo.Padre = Padre;
+    				ArrayList<Namekiano> Hijos = new ArrayList<Namekiano>();
+    				Hijos.add(Hijo);
+    				Padre.Hijos = Hijos;
+    				Namekianos.add(Padre);
+    			}else {
+    				Padre.Nombre=nombres_separados[0];
+    				Hijo.Nombre=nombres_separados[1];
+    				Hijo.Padre=Padre;
+    				ArrayList<Namekiano> Hijos = new ArrayList<Namekiano>();
+    				Hijos.add(Hijo);
+    				Padre.Hijos = Hijos;
+    				Namekianos.add(Padre);
+    				Namekianos.add(Hijo);
+    			}	
     		}
     		casos--;
     	}
@@ -65,5 +64,17 @@ public class App{
     	}
     	
     	filein.close();
+    }
+    
+    public static boolean findnamekiano(ArrayList<Namekiano> Namekianos, String Namekiano) {
+    	for(int i = 0; i < Namekianos.size(); i++){
+			if(Namekianos.get(i).Nombre.equals(Namekiano)){
+				NamekianoGlobal = new Namekiano();
+				NamekianoGlobal = Namekianos.get(i);
+				return true;
+			}
+    	}
+    	
+    	return false;
     }
 }
