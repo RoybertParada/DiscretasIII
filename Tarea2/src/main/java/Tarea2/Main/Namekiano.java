@@ -7,5 +7,4 @@ public class Namekiano {
 	String Nombre;
 	Namekiano Padre;
 	ArrayList <Namekiano> Hijos = new ArrayList<Namekiano>();
-	
 }
