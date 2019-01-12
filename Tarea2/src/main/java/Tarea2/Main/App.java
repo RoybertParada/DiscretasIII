@@ -78,7 +78,7 @@ public class App{
 	}
     public static void main( String[] args ) throws NumberFormatException, IOException{
     	input();
-    	FileWriter fileWriter = new FileWriter("C:\\Users\\b712590\\Desktop\\PARADA_ROYBERT.out");
+    	FileWriter fileWriter = new FileWriter("C:\\Users\\Usuario\\Desktop\\PARADA_ROYBERT.out");
     	PrintWriter printWriter = new PrintWriter(fileWriter);
     	
     	int AlturaGuerreros=0;
@@ -105,18 +105,16 @@ public class App{
     		for(int k = 0; k < parentesco.size(); k++){
     			String par = parentesco.get(k);
     			String par_separado[] = par.split(" ");
-    			ArrayList<Namekiano> aux = new ArrayList<Namekiano>();
-    			aux = Namekianos;
     			for(int l = 0; l < Namekianos.size(); l++){
     				Namekiano Namek = Namekianos.get(l);
     	    		if(Namek.Nombre.equals(par_separado[0])){
     	    			int arriba = findparent(Namek,par_separado[1],0);
-    	    			if(arriba !=-1) {
-    	    				System.out.println("something");
+    	    			if(arriba == 0) {
+    	    				System.out.println("Enemigos");
     	    			}
     	    			int abajo = findchild(Namek,par_separado[1],0);
     	    			if( abajo !=-1) {
-    	    				System.out.println("Don't find");
+    	    				System.out.println("Enemigos");
     	    			}
     	    			break;
     	    		}
@@ -137,13 +135,11 @@ public class App{
     			if((help.Nombre.equals(finder))){
             		return level;
             	}else{
-            		level++;
             		level = findchild(help,finder, level);
             	}
     		}
     	}
-    	level--;
-    	return level;
+    	return level++;
     }
     public static int findparent(Namekiano Namek, String finder, int level){
     	Namekiano aux = new Namekiano();	
@@ -155,7 +151,6 @@ public class App{
         	}else{
         		level++;
         		level = findparent(aux,finder, level);
-        		level--;
         	}
     	}
     	
