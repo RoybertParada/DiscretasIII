@@ -99,9 +99,67 @@ public class App{
     		}
     		
     		printWriter.println(AlturaGuerreros+" "+AlturaDemonios);
+    		
+    		ArrayList<String> parentesco = new ArrayList<String>();
+    		parentesco = Parentescos.get(i);
+    		for(int k = 0; k < parentesco.size(); k++){
+    			String par = parentesco.get(k);
+    			String par_separado[] = par.split(" ");
+    			ArrayList<Namekiano> aux = new ArrayList<Namekiano>();
+    			aux = Namekianos;
+    			for(int l = 0; l < Namekianos.size(); l++){
+    				Namekiano Namek = Namekianos.get(l);
+    	    		if(Namek.Nombre.equals(par_separado[0])){
+    	    			int arriba = findparent(Namek,par_separado[1],0);
+    	    			if(arriba !=-1) {
+    	    				System.out.println("something");
+    	    			}
+    	    			int abajo = findchild(Namek,par_separado[1],0);
+    	    			if( abajo !=-1) {
+    	    				System.out.println("Don't find");
+    	    			}
+    	    			break;
+    	    		}
+    			}	    
+     		}
     	}
     	
+    	
+    	
     	printWriter.close();
+    }
+    
+    public static int findchild(Namekiano Namek, String finder, int level){
+    	ArrayList<Namekiano> papan = new ArrayList<Namekiano>();
+    	papan = Namek.Hijos;
+    	if(!papan.isEmpty()){
+    		for(Namekiano help : papan){
+    			if((help.Nombre.equals(finder))){
+            		return level;
+            	}else{
+            		level++;
+            		level = findchild(help,finder, level);
+            	}
+    		}
+    	}
+    	level--;
+    	return level;
+    }
+    public static int findparent(Namekiano Namek, String finder, int level){
+    	Namekiano aux = new Namekiano();	
+    	aux = Namek.Padre;
+    	if(aux!=null) {
+    		if((aux.Nombre.equals(finder))){
+    			level++;
+        		return level;
+        	}else{
+        		level++;
+        		level = findparent(aux,finder, level);
+        		level--;
+        	}
+    	}
+    	
+    	return level;
     }
     
     public static boolean findnamekiano(ArrayList<Namekiano> Namekianos, String Namekiano) {
@@ -128,10 +186,7 @@ public class App{
         			altura = Height;
         		}
     		}
-    		
     	}
-    	  
-    	
     	return altura;
     }
 }
