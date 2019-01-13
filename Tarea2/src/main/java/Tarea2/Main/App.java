@@ -78,7 +78,7 @@ public class App{
 	}
     public static void main( String[] args ) throws NumberFormatException, IOException{
     	input();
-    	FileWriter fileWriter = new FileWriter("C:\\Users\\Usuario\\Desktop\\PARADA_ROYBERT.out");
+    	FileWriter fileWriter = new FileWriter("C:\\Users\\Roybert\\Desktop\\PARADA_ROYBERT.out");
     	PrintWriter printWriter = new PrintWriter(fileWriter);
     	
     	int AlturaGuerreros=0;
@@ -135,11 +135,15 @@ public class App{
     			if((help.Nombre.equals(finder))){
             		return level;
             	}else{
-            		level = findchild(help,finder, level);
+            		level++;
+            		int a = findchild(help,finder, level);
+            		if(a==0){
+            			level--;
+            		}
             	}
     		}
     	}
-    	return level++;
+    	return 0;
     }
     public static int findparent(Namekiano Namek, String finder, int level){
     	Namekiano aux = new Namekiano();	
@@ -150,11 +154,17 @@ public class App{
         		return level;
         	}else{
         		level++;
-        		level = findparent(aux,finder, level);
+        		int a = findparent(aux,finder, level);
+        		if(a==0){
+        			level--;
+        		}else {
+        			level = a;
+        			return level;
+        		}
         	}
     	}
     	
-    	return level;
+    	return 0;
     }
     
     public static boolean findnamekiano(ArrayList<Namekiano> Namekianos, String Namekiano) {
